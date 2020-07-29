@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="/">Feedback</a>
+  
+    <div>
+        {% if 'username' in session %}
+            <a href="/logout" class="btn btn-outline-primary">Logout</a>
+        {% else %}
+            <a href="/login" class="btn btn-outline-primary">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="container position-fixed w-25 p-2" style="top:10%; left:35%;">
+    <h3>{{user.username}}'s Feedback</h3>
+
+    <ul>
+        {% for feedback in user.feedbacks %}
+        <li>
+            <h4>{{ feedback.title }}</h4>
+            <p>{{ feedback.content }}</p>
+            <form>
+                <button class="btn btn-outline-primary btn-sm" formmethod="GET" formaction="/feedback/{{ feedback.id }}/update">
+                  Edit
+                </button>
+                <button class="btn btn-outline-danger btn-sm" formmethod="POST" formaction="/feedback/{{ feedback.id }}/delete">
+                  Delete
+                </button>
+              </form>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <form>
+        <a href="/users/{{ user.username }}/feedback/add" class="btn btn-outline-primary btn-sm">
+            Add feedback
+          </a>
+        <button class="btn btn-outline-danger btn-sm" formaction="/users/{{ user.username }}/delete" formmethod="POST">
+          Delete {{user.username}}
+        </button>
+    </form>
+</div>
+{% endblock %}

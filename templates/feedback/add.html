@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="/">Add Feedback</a>
+</nav>
+
+<div class="container position-fixed w-25 p-2" style="top:10%; left:35%;">
+  <form method="POST">
+      {{ form.hidden_tag() }}
+  
+      {% for field in form if field.widget.input_type != 'hidden' %}
+      <div class="input-group mb-3">
+          <label>{{ field.label}}:</label>
+          <div class="input-group input-group-sm-3">
+              {{ field(class="form-control") }}
+          </div>
+  
+          {% for error in field.errors %}
+              <p class='text-danger'>{{ error }}</h6>
+          {% endfor %}
+      </div>
+      {% endfor %}
+  
+      <a type="button" class="btn btn-outline-primary" href='/users/{{username}}'>Cancel</a>
+      <button type="submit" class="btn btn-outline-primary">Add</button>
+  </form>
+</div>
+
+{% endblock %}

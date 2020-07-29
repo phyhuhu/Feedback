@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="/">Feedback</a>
+  
+    <div>
+        {% if 'username' in session %}
+            <a href="/logout" class="btn btn-outline-primary">Logout</a>
+        {% else %}
+            <a href="/login" class="btn btn-outline-primary">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="container position-fixed w-25 p-2" style="top:10%; left:35%;">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+    
+        {% for field in form if field.widget.input_type != 'hidden' %}
+        <div class="input-group mb-3">
+            <label>{{ field.label}}:</label>
+            <div class="input-group input-group-sm-3">
+                {{ field(class="form-control") }}
+            </div>
+    
+            {% for error in field.errors %}
+                <p class='text-danger'>{{ error }}</h6>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    
+        {% if kind=='Login' %}
+            <a type="button" class="btn btn-outline-primary" href='/'>Cancel</a>
+        {% endif %}
+        <button type="submit" class="btn btn-outline-primary">{{kind}}</button>
+    </form>
+</div>
+{% endblock %}
